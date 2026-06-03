@@ -1,0 +1,10 @@
+{
+  "short_name": "HabitPWA",
+  "name": "Offline Habit Tracker",
+  "icons": [],
+  "start_url": "/",
+  "background_color": "#121212",
+  "theme_color": "#1f1f1f",
+  "display": "standalone",
+  "orientation": "portrait"
+}
