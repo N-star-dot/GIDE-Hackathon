@@ -8,6 +8,8 @@
     --accent-blue: #3b82f6;
     --accent-orange: #f97316;
     --accent-red: #ef4444;
+    --accent-purple: #8b5cf6;
+    --matrix-green: #4ade80;
 }
 
 body {
@@ -44,13 +46,15 @@ header h1 {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
 }
 
-h2 {
+h2, h3 {
     margin-top: 0;
-    font-size: 1.25rem;
     color: var(--text-primary);
     border-bottom: 1px solid var(--border-color);
     padding-bottom: 10px;
 }
+
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1rem; border: none; margin-bottom: 8px;}
 
 .subtitle {
     color: var(--text-secondary);
@@ -61,7 +65,7 @@ h2 {
 .input-group {
     display: flex;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 input[type="text"], textarea {
@@ -97,31 +101,20 @@ button {
     transition: background 0.2s;
 }
 
-button:hover {
-    background-color: #2563eb;
-}
+button:hover { background-color: #2563eb; }
 
-.btn-drop {
-    background-color: var(--accent-orange);
-    width: 100%;
-    margin-top: 15px;
-}
+.btn-drop { background-color: var(--accent-orange); width: 100%; margin-top: 15px; }
+.btn-drop:hover { background-color: #ea580c; }
 
-.btn-drop:hover {
-    background-color: #ea580c;
-}
+.btn-intel { width: 100%; margin-top: 10px; margin-bottom: 10px; }
 
-.btn-intel {
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
+.btn-challenge { background-color: var(--accent-red); width: 100%; margin-bottom: 20px; }
+.btn-challenge:hover { background-color: #dc2626; }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
+.btn-debrief { background-color: var(--accent-purple); width: 100%; }
+.btn-debrief:hover { background-color: #7c3aed; }
+
+ul { list-style-type: none; padding: 0; margin: 0; }
 
 li {
     background: var(--bg-console);
@@ -140,20 +133,9 @@ li.completed {
     opacity: 0.6;
 }
 
-li input[type="checkbox"] {
-    margin-right: 12px;
-    transform: scale(1.1);
-}
-
-li button {
-    background-color: var(--accent-red);
-    padding: 6px 12px;
-    font-size: 0.85rem;
-}
-
-li button:hover {
-    background-color: #dc2626;
-}
+li input[type="checkbox"] { margin-right: 12px; transform: scale(1.1); }
+li button { background-color: var(--accent-red); padding: 6px 12px; font-size: 0.85rem; }
+li button:hover { background-color: #dc2626; }
 
 .console-box {
     background-color: var(--bg-console);
@@ -163,18 +145,37 @@ li button:hover {
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.9rem;
     line-height: 1.5;
-    color: #4ade80; 
+    color: var(--matrix-green); 
     overflow-y: auto;
     white-space: pre-wrap;
     margin-bottom: 15px;
+}
+
+/* Heatmap Grid Styles */
+.heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(14, 1fr); /* 2 rows of 14 */
+    gap: 4px;
+    margin-bottom: 15px;
+}
+
+.heatmap-cell {
+    width: 100%;
+    aspect-ratio: 1;
+    background-color: var(--bg-console);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+.heatmap-cell.active {
+    background-color: var(--matrix-green);
+    border-color: #22c55e;
+    box-shadow: 0 0 5px rgba(74, 222, 128, 0.4);
 }
 
 @media (min-width: 768px) {
     .dashboard-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-    }
-    .wide-card {
-        grid-column: span 2;
     }
 }

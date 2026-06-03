@@ -3,29 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Offline Habit Tracker</title>
+    <title>Offline Habit Armor</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <div id="app">
         <header>
-            <h1>⚡ Offline Habit Tracker</h1>
+            <h1>⚡ Offline Habit Armor & Intel Lab</h1>
         </header>
 
         <div class="dashboard-grid">
             
-            <!-- SECTION 1: HABIT ARMOR CORE -->
             <section class="card">
                 <h2>📝 Daily Tasks & Habits</h2>
                 <div class="input-group">
                     <input type="text" id="habit-input" placeholder="Enter a new habit or task...">
                     <button id="add-btn">Add Task</button>
                 </div>
+                <button id="challenge-btn" class="btn-challenge">🔥 Generate Challenging Task</button>
                 <ul id="habit-list"></ul>
             </section>
 
-            <!-- SECTION 2: VIRTUAL GOODS DROP -->
             <section class="card">
                 <h2>📦 Goods & Provisions Drop</h2>
                 <div class="game-stats">
@@ -36,14 +35,23 @@
                 <button id="pull-btn" class="btn-drop">🎟️ Request Goods Drop (100 Credits)</button>
             </section>
 
-            <!-- SECTION 3: MASTER TEACHING INTEL LAB -->
-            <section class="card wide-card">
+            <section class="card">
+                <h2>📊 Performance Analytics</h2>
+                <p class="subtitle">28-Day Tactical Heatmap</p>
+                <div id="heatmap" class="heatmap-grid"></div>
+                <button id="debrief-btn" class="btn-debrief">📡 Request Tactical Debrief</button>
+                
+                <h3 style="margin-top: 15px;">AI Assessment</h3>
+                <div id="debrief-output" class="console-box">Awaiting analysis command...</div>
+            </section>
+
+            <section class="card">
                 <h2>🧠 Master Teaching Lab</h2>
-                <p class="subtitle">Feed raw data to your offline context model for architectural translation.</p>
+                <p class="subtitle">Feed raw data to your offline context model.</p>
                 <textarea id="raw-notes-input" rows="5" placeholder="Paste dense academic text, logs, or codebase snippets here..."></textarea>
                 <button id="process-notes-btn" class="btn-intel">🧬 Process Intelligence Protocol</button>
                 
-                <h3>Output Protocol Archive</h3>
+                <h3 style="margin-top: 15px;">Output Protocol</h3>
                 <div id="protocol-output" class="console-box markdown-target">
                     System clear. Awaiting protocol input injection...
                 </div>
