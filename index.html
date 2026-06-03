@@ -3,23 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Offline Habit Armor</title>
+    <title>Offline Habit Tracker</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
     <div id="app">
-        <h1>⚡ Offline Habit Tracker</h1>
-        <div class="input-group">
-            <input type="text" id="habit-input" placeholder="Enter new habit...">
-            <button id="add-btn">Add Habit</button>
+        <header>
+            <h1>⚡ Offline Habit Tracker</h1>
+        </header>
+
+        <div class="dashboard-grid">
+            
+            <!-- SECTION 1: HABIT ARMOR CORE -->
+            <section class="card">
+                <h2>📝 Daily Tasks & Habits</h2>
+                <div class="input-group">
+                    <input type="text" id="habit-input" placeholder="Enter a new habit or task...">
+                    <button id="add-btn">Add Task</button>
+                </div>
+                <ul id="habit-list"></ul>
+            </section>
+
+            <!-- SECTION 2: VIRTUAL GOODS DROP -->
+            <section class="card">
+                <h2>📦 Goods & Provisions Drop</h2>
+                <div class="game-stats">
+                    <p><strong>Available Credits: </strong><span id="credit-display">0</span></p>
+                    <p><strong>Drop Coordinator Comms:</strong></p>
+                    <div id="quest-log" class="console-box">Awaiting task completion...</div>
+                </div>
+                <button id="pull-btn" class="btn-drop">🎟️ Request Goods Drop (100 Credits)</button>
+            </section>
+
+            <!-- SECTION 3: MASTER TEACHING INTEL LAB -->
+            <section class="card wide-card">
+                <h2>🧠 Master Teaching Lab</h2>
+                <p class="subtitle">Feed raw data to your offline context model for architectural translation.</p>
+                <textarea id="raw-notes-input" rows="5" placeholder="Paste dense academic text, logs, or codebase snippets here..."></textarea>
+                <button id="process-notes-btn" class="btn-intel">🧬 Process Intelligence Protocol</button>
+                
+                <h3>Output Protocol Archive</h3>
+                <div id="protocol-output" class="console-box markdown-target">
+                    System clear. Awaiting protocol input injection...
+                </div>
+            </section>
+
         </div>
-        <ul id="habit-list"></ul>
     </div>
 
     <script src="app.js"></script>
     <script>
-        // Register the Service Worker
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js')
                 .then(() => console.log('Service Worker Registered!'))
