@@ -1,0 +1,187 @@
+/* ============================================================
+   Grounded Doc Q&A — layered on top of style.css theme vars
+   ============================================================ */
+
+.docqa { max-width: 1180px; }
+
+.docqa-header { margin-bottom: 22px; }
+.title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 8px;
+}
+.docqa-header h1 { margin: 0; font-weight: 700; }
+.tagline {
+    text-align: center;
+    color: var(--text-secondary);
+    max-width: 760px;
+    margin: 0 auto 10px;
+    line-height: 1.5;
+}
+.tagline code {
+    background: var(--bg-console);
+    padding: 1px 6px;
+    border-radius: 4px;
+    color: var(--matrix-green);
+}
+.back-link {
+    display: block;
+    text-align: center;
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-size: 0.875rem;
+}
+.back-link:hover { text-decoration: underline; }
+
+/* ---- Status pills ---- */
+.pill {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border-color);
+    white-space: nowrap;
+    font-family: 'Courier New', monospace;
+}
+.pill-green  { background: rgba(74, 222, 128, 0.12); color: var(--matrix-green); border-color: rgba(74,222,128,0.4); }
+.pill-amber  { background: rgba(249, 115, 22, 0.12); color: var(--accent-orange); border-color: rgba(249,115,22,0.4); }
+.pill-red    { background: rgba(239, 68, 68, 0.12);  color: var(--accent-red); border-color: rgba(239,68,68,0.4); }
+.pill-idle   { background: var(--bg-console); color: var(--text-secondary); }
+
+/* ---- Status bar / self-test ---- */
+.statusbar { padding: 16px 24px; }
+.status-line { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.btn-ghost {
+    background: transparent;
+    border: 1px solid var(--accent-blue);
+    color: var(--accent-blue);
+}
+.btn-ghost:hover { background: rgba(59,130,246,0.12); }
+.selftest-out {
+    margin-top: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--matrix-green);
+    background: var(--bg-console);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 14px;
+    white-space: pre-wrap;
+}
+
+/* ---- Layout grid ---- */
+.docqa-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+.col { display: flex; flex-direction: column; gap: 20px; }
+@media (min-width: 900px) {
+    .docqa-grid { grid-template-columns: 1.05fr 0.95fr; align-items: start; }
+}
+
+/* ---- Dropzone ---- */
+.dropzone {
+    display: block;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-console);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+}
+.dropzone:hover, .dropzone.dragover {
+    border-color: var(--accent-blue);
+    background: rgba(59,130,246,0.06);
+}
+.dz-inner { padding: 30px 20px; text-align: center; }
+.dz-icon { font-size: 2rem; color: var(--accent-blue); margin-bottom: 8px; }
+.dz-text { color: var(--text-secondary); }
+.dz-text strong { color: var(--text-primary); }
+.dz-file { margin-top: 8px; color: var(--matrix-green); font-family: 'Courier New', monospace; font-size: 0.85rem; }
+
+/* ---- Progress ---- */
+.progress-wrap { margin-top: 16px; }
+.progress-track {
+    height: 8px;
+    background: var(--bg-console);
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    overflow: hidden;
+}
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-blue), var(--matrix-green));
+    transition: width 0.2s ease;
+}
+.progress-label {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-family: 'Courier New', monospace;
+}
+.index-status {
+    margin-top: 14px;
+    font-weight: 600;
+    color: var(--matrix-green);
+    min-height: 1.2em;
+}
+.index-status.err { color: var(--accent-red); }
+
+/* ---- Answer ---- */
+.mode-note {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-family: 'Courier New', monospace;
+    margin-bottom: 8px;
+    min-height: 1em;
+}
+.answer-box { min-height: 120px; color: var(--text-primary); }
+.answer-box.thinking { color: var(--text-secondary); font-style: italic; }
+.answer-box.err { color: var(--accent-red); }
+
+/* Disabled-state feedback (scoped to the Doc Q&A page) */
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+button:disabled:hover { background-color: var(--accent-blue); }
+input[type="text"]:disabled, textarea:disabled { opacity: 0.6; cursor: not-allowed; }
+.answer-box .cite-ref {
+    color: var(--accent-orange);
+    font-weight: 700;
+}
+
+/* ---- Citations ---- */
+.sources-card { position: sticky; top: 16px; }
+.citations { display: flex; flex-direction: column; gap: 14px; max-height: 70vh; overflow-y: auto; }
+.empty-state { color: var(--text-secondary); font-style: italic; padding: 12px 0; }
+
+.cite {
+    border: 1px solid var(--border-color);
+    border-left: 3px solid var(--accent-orange);
+    border-radius: 8px;
+    background: var(--bg-console);
+    padding: 12px 14px;
+}
+.cite-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.8rem;
+}
+.cite-page { color: var(--accent-orange); font-weight: 700; font-family: 'Courier New', monospace; }
+.cite-score { color: var(--text-secondary); font-family: 'Courier New', monospace; }
+.cite-snippet {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--text-primary);
+    max-height: 180px;
+    overflow-y: auto;
+}
+.cite-snippet mark {
+    background: rgba(249, 115, 22, 0.35);
+    color: #fff;
+    border-radius: 3px;
+    padding: 0 2px;
+    box-shadow: 0 0 0 1px rgba(249,115,22,0.4);
+}
+.cite-ellipsis { color: var(--text-secondary); }

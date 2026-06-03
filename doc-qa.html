@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grounded Doc Q&A — Offline</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="doc-qa.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div id="app" class="docqa">
+        <header class="docqa-header">
+            <div class="title-row">
+                <h1>🔍 Grounded Doc Q&A</h1>
+                <span id="net-pill" class="pill pill-green" title="Connectivity">● LOCAL</span>
+            </div>
+            <p class="tagline">Drop in a PDF and ask anything — it <strong>analyzes the whole document locally</strong> and answers <strong>with the exact source highlighted</strong>. Everything runs on <code>localhost</code> — nothing leaves this machine.</p>
+            <a class="back-link" href="index.html">← Back to Habit Armor</a>
+        </header>
+
+        <!-- Phase 0: offline proof, visible to the judge -->
+        <section class="card statusbar">
+            <div class="status-line">
+                <button id="selftest-btn" class="btn-ghost">⚡ Run offline self-test</button>
+                <span id="embed-pill" class="pill pill-idle" title="Embedding model">embeddings: …</span>
+                <span id="chat-pill" class="pill pill-idle" title="Chat model">chat: …</span>
+            </div>
+            <div id="selftest-out" class="selftest-out" hidden></div>
+        </section>
+
+        <div class="docqa-grid">
+            <!-- LEFT: ingest + ask + answer -->
+            <div class="col">
+                <section class="card">
+                    <h2>📄 1 · Upload a PDF</h2>
+                    <p class="subtitle">Text-based PDFs only (no OCR for scanned images).</p>
+                    <label id="dropzone" class="dropzone" for="pdf-input">
+                        <input type="file" id="pdf-input" accept="application/pdf" hidden>
+                        <div class="dz-inner">
+                            <div class="dz-icon">⬆</div>
+                            <div class="dz-text"><strong>Drop a PDF here</strong> or click to choose</div>
+                            <div id="dz-file" class="dz-file"></div>
+                        </div>
+                    </label>
+
+                    <div id="index-progress" class="progress-wrap" hidden>
+                        <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+                        <div id="progress-label" class="progress-label">Working…</div>
+                    </div>
+                    <div id="index-status" class="index-status"></div>
+                </section>
+
+                <section class="card">
+                    <h2>💬 2 · Ask a question</h2>
+                    <div class="input-group">
+                        <input type="text" id="question-input" placeholder="Ask something answerable from the document…" disabled>
+                        <button id="ask-btn" disabled>Ask</button>
+                    </div>
+                    <div id="mode-note" class="mode-note"></div>
+                    <h3>Answer</h3>
+                    <div id="answer-box" class="console-box answer-box">Index a document, then ask a question.</div>
+                </section>
+            </div>
+
+            <!-- RIGHT: live citations -->
+            <div class="col">
+                <section class="card sources-card">
+                    <h2>🔎 Live Citations</h2>
+                    <p class="subtitle">The exact passages the answer was grounded in — verify it yourself.</p>
+                    <div id="citations" class="citations">
+                        <div class="empty-state">Sources will appear here after you ask a question.</div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="/vendor/pdf.min.js"></script>
+    <script src="doc-qa.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(err => console.error('SW registration failed:', err));
+        }
+    </script>
+</body>
+</html>
