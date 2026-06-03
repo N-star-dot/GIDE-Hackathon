@@ -42,7 +42,6 @@ function addHabit() {
         const ul = document.getElementById('habit-list');
         const li = document.createElement('li');
         
-        // Use a span to isolate text for easy reading later
         const textSpan = document.createElement('span');
         textSpan.className = 'task-text';
         textSpan.textContent = habitText;
@@ -52,8 +51,8 @@ function addHabit() {
         checkbox.addEventListener('change', function() {
             if (this.checked) {
                 li.classList.add('completed');
-                completeHabitQuest(habitText); // Trigger AI and rewards
-                updateTodayHeatmap(); // Mark today as active
+                completeHabitQuest(habitText); 
+                updateTodayHeatmap(); // Adds +1 hour to today's heatmap when checked
             } else {
                 li.classList.remove('completed');
             }
@@ -124,57 +123,98 @@ function executeGoodsDrop() {
 }
 
 // ============================================================================
-// FEATURE 2: HEATMAP & WEEKLY TACTICAL DEBRIEF (NEW)
+// FEATURE 2: HEATMAP & WEEKLY TACTICAL DEBRIEF (UPGRADED)
 // ============================================================================
-// Initialize a mock 28-day history if it doesn't exist
+// Initialize data tracking hours
 let habitHistory = JSON.parse(localStorage.getItem('habitHistory'));
 if (!habitHistory || habitHistory.length < 28) {
-    // Generate 28 random days to make the heatmap look good for the demo
-    habitHistory = Array.from({length: 28}, () => Math.random() > 0.4 ? 1 : 0);
-    // Make sure today (the last day) is 0 initially
-    habitHistory[27] = 0; 
+    habitHistory = Array.from({length: 28}, () => Math.random() > 0.4 ? Math.floor(Math.random() * 8) + 1 : 0);
+    habitHistory[27] = 0; // Set today to 0
     localStorage.setItem('habitHistory', JSON.stringify(habitHistory));
 }
+
+let activeDayIndex = null;
 
 function renderHeatmap() {
     const grid = document.getElementById('heatmap');
     if (!grid) return;
     grid.innerHTML = '';
-    habitHistory.forEach(status => {
+    
+    habitHistory.forEach((hours, index) => {
         const cell = document.createElement('div');
-        cell.className = `heatmap-cell ${status === 1 ? 'active' : ''}`;
+        cell.className = 'heatmap-cell';
+        
+        let level = 0;
+        if (hours > 0 && hours <= 2) level = 1;
+        else if (hours > 2 && hours <= 5) level = 2;
+        else if (hours > 5 && hours <= 8) level = 3;
+        else if (hours > 8) level = 4;
+        
+        cell.classList.add(`level-${level}`);
+        cell.title = `Day ${index + 1}: ${hours} hours`;
+        
+        cell.addEventListener('click', () => openModal(index, hours));
         grid.appendChild(cell);
     });
 }
 
+// Modal Controls
+function openModal(index, currentHours) {
+    activeDayIndex = index;
+    document.getElementById('modal-title').innerText = `Log Tactical Data - Day ${index + 1}`;
+    document.getElementById('hours-input').value = currentHours > 0 ? currentHours : '';
+    document.getElementById('modal-overlay').style.display = 'flex';
+    document.getElementById('hours-input').focus();
+}
+
+function closeModal() {
+    document.getElementById('modal-overlay').style.display = 'none';
+    activeDayIndex = null;
+}
+
+function saveLog() {
+    const newHours = parseFloat(document.getElementById('hours-input').value) || 0;
+    if (activeDayIndex !== null) {
+        habitHistory[activeDayIndex] = newHours;
+        localStorage.setItem('habitHistory', JSON.stringify(habitHistory));
+        closeModal();
+        renderHeatmap(); 
+    }
+}
+
+// Auto-update when a daily task is checked off
 function updateTodayHeatmap() {
-    habitHistory[27] = 1; // Mark the last day (today) as active
+    habitHistory[27] = (habitHistory[27] || 0) + 1; 
     localStorage.setItem('habitHistory', JSON.stringify(habitHistory));
     renderHeatmap();
 }
 
+// AI Debrief (Analyzes hour volume)
 async function requestTacticalDebrief() {
     const output = document.getElementById('debrief-output');
-    output.innerText = "Analyzing 7-day tactical history...";
+    output.innerText = "Analyzing 7-day tactical volume...";
     
     const recent7Days = habitHistory.slice(-7);
-    const completedCount = recent7Days.filter(day => day === 1).length;
+    const totalHours = recent7Days.reduce((sum, h) => sum + h, 0);
     
     const systemPrompt = "You are a strict, analytical AI performance coach. Provide a harsh but fair tactical debrief based on the data provided. Keep it to exactly 3 sentences.";
-    const userPrompt = `Over the last 7 days, my task completion array was [${recent7Days.join(', ')}] (1=completed, 0=missed). Total completed: ${completedCount}/7. Analyze my consistency.`;
+    const userPrompt = `Over the last 7 days, my logged hours of deep work were [${recent7Days.join(', ')}]. Total hours: ${totalHours}. Analyze my volume and consistency.`;
     
     const response = await askLocalAI(systemPrompt, userPrompt);
     output.innerText = response;
 }
 
+// Make modal functions global so HTML onclicks work
+window.closeModal = closeModal;
+window.saveLog = saveLog;
+
 // ============================================================================
-// FEATURE 3: DYNAMIC CHALLENGING TASKS (NEW)
+// FEATURE 3: DYNAMIC CHALLENGING TASKS 
 // ============================================================================
 async function generateChallengingTask() {
     const btn = document.getElementById('challenge-btn');
     btn.innerText = "🔥 Generating...";
     
-    // Scrape existing tasks to give the AI context
     const existingTasks = Array.from(document.querySelectorAll('.task-text'))
                                .map(span => span.textContent)
                                .join(', ');
@@ -186,9 +226,8 @@ async function generateChallengingTask() {
     
     const bossTask = await askLocalAI(systemPrompt, userPrompt);
     
-    // Inject it directly into the input and trigger the add function
     const input = document.getElementById('habit-input');
-    input.value = "🔥 CHALLENGE: " + bossTask.replace(/["']/g, ""); // Clean up any quotes
+    input.value = "🔥 CHALLENGE: " + bossTask.replace(/["']/g, ""); 
     addHabit();
     
     btn.innerText = "🔥 Generate Challenging Task";
@@ -223,7 +262,6 @@ document.getElementById('process-notes-btn')?.addEventListener('click', () => {
 
 window.addEventListener('load', () => {
     renderHeatmap();
-    // Re-run your existing anomaly check from the previous logic
     const missedCount = habitHistory.slice(-3).filter(status => status === 0).length;
     if (missedCount >= 2) {
         askLocalAI("You are a motivational AI.", "The user missed 2 of their last 3 days. Write a short 1-sentence urgent push.")
