@@ -11,7 +11,7 @@ Traditional habit trackers rely on cloud APIs and simple checkboxes. **Offline H
 
 *   **📝 Dynamic Task Management:** Log daily tasks and check them off to earn credits and log deep-work hours. 
 *   **🔥 Boss-Level Challenges:** The AI reads your current task list and generates a highly difficult, military-style objective to push your limits.
-*   **📦 Goods & Provisions Drop (Gacha System):** Spend your earned credits on a weighted RNG loot system to pull for real-world rewards (from an *Iced Matcha Latte* to *Jordan 1 Lows*).
+*   **📦 Goods & Provisions Drop(reward system):** Spend your earned credits on a weighted RNG loot system to pull for real-world rewards (from an *Iced Matcha Latte* to *Jordan 1 Lows*).
 *   **📊 Interactive Tactical Heatmap:** A 28-day visual tracker. Click any cell to log your deep work hours. Watch the matrix-green intensity scale dynamically.
 *   **📡 AI Tactical Debriefs:** The AI analyzes your rolling 7-day work volume and delivers a harsh, analytical performance review.
 *   **🧠 Master Teaching Lab:** Paste dense documentation, codebase snippets, or academic text, and the AI will strictly format it into fundamental mechanics and architectural derivations.
